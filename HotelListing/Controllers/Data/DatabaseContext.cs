@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HotelListing.Configurations.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HotelListing.Controllers.Data
 {
-    public class DatabaseContext:DbContext
+    public class DatabaseContext:IdentityDbContext<ApiUser>
     {
         public DatabaseContext(DbContextOptions options):base (options)
         { }
@@ -15,13 +17,16 @@ namespace HotelListing.Controllers.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new RoleConfiguration());
             builder.Entity<Country>().HasData(
                 new Country
                 {
                     Id = 1,
                     Name = "Angola",
                     ShortName = "AO"
-                }, new Country
+                }, 
+                new Country
                 {
                     Id = 2,
                     Name = "South Africa",
@@ -49,14 +54,16 @@ namespace HotelListing.Controllers.Data
                     Address = "Cape Town",
                     CountryId = 2,
                     Rating = 4.8F
-                }, new Hotel
+                }, 
+                new Hotel
                 {
                     Id = 3,
                     Name = "Grand Live Hotel",
                     Address = "New York",
                     CountryId = 3,
                     Rating = 5F
-                },new Hotel
+                },
+                new Hotel
                 {
                     Id = 4,
                     Name = "Hotel Chick Chick",
