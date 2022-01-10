@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelListing.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,7 +13,10 @@ namespace HotelListing.IRepository
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             List<string> includes = null
             );
-
+        Task<X.PagedList.IPagedList<T>> GetAll(
+            RequestParams requestParams,
+            List<string> includes = null
+           );
         Task<T> Get(Expression<Func<T, bool>> expression = null, List<string> includes = null);
         Task Insert(T entity);
         Task InsertRange(IEnumerable<T> entities);
